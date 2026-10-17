@@ -1,5 +1,9 @@
+import logging
+
 from django.conf import settings
 from django.core.mail import send_mail
+
+logger = logging.getLogger(__name__)
 
 
 def send_status_update_email(service_request):
@@ -8,17 +12,21 @@ def send_status_update_email(service_request):
     if not citizen.email:
         return
 
-    send_mail(
-        subject=f"Update on your request #{service_request.pk}",
-        message=(
-            f"Hello {citizen.username},\n\n"
-            f"Your {service_request.category.name} request at "
-            f"{service_request.location} is now: "
-            f"{service_request.get_status_display()}.\n\n"
-            "Thank you for helping us improve our community.\n"
-            "MyHuduma"
-        ),
-        from_email=settings.DEFAULT_FROM_EMAIL,
-        recipient_list=[citizen.email],
-        fail_silently=True,
-    )
+    try:
+        send_mail(
+            subject=f"Update on your request #{service_request.pk}",
+            message=(
+                f"Hello {citizen.username},\n\n"
+                f"Your {service_request.category.name} request at "
+                f"{service_request.location} is now: "
+                f"{service_request.get_status_display()}.\n\n"
+                "Thank you for helping us improve our community.\n"
+                "MyHuduma"
+            ),
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            recipient_list=[citizen.email],
+        )
+    except Exception:
+        logger.exception(
+            "Could not send status email for request %s", service_request.pk
+        )
