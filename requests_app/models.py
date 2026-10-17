@@ -45,3 +45,12 @@ class ServiceRequest(models.Model):
 
     def __str__(self):
         return f"#{self.pk} {self.category} - {self.location}"
+
+    @property
+    def status_badge_class(self):
+        """Bootstrap colour classes for showing the status as a badge."""
+        return {
+            self.Status.PENDING: "bg-warning text-dark",
+            self.Status.IN_PROGRESS: "bg-primary",
+            self.Status.RESOLVED: "bg-success",
+        }.get(self.status, "bg-secondary")

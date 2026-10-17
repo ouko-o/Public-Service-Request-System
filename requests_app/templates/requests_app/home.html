@@ -1,0 +1,54 @@
+{% extends "requests_app/base.html" %}
+
+{% block content %}
+<section class="text-center py-5">
+  <h1 class="display-5 fw-bold">Public Service Request System</h1>
+  <p class="lead text-muted mb-4">
+    Report problems in your community and track their progress until they are fixed.
+  </p>
+
+  {% if user.is_authenticated %}
+    <a href="{% url 'submit_request' %}" class="btn btn-success btn-lg me-2">Submit a request</a>
+    <a href="{% url 'my_requests' %}" class="btn btn-outline-success btn-lg">My requests</a>
+  {% else %}
+    <a href="{% url 'register' %}" class="btn btn-success btn-lg me-2">Get started</a>
+    <a href="{% url 'login' %}" class="btn btn-outline-success btn-lg">Login</a>
+  {% endif %}
+</section>
+
+<section class="row g-4 text-center">
+  <div class="col-md-4">
+    <div class="card shadow-sm h-100">
+      <div class="card-body p-4">
+        <div class="fs-1 fw-bold text-success">1</div>
+        <h5 class="card-title">Report</h5>
+        <p class="card-text text-muted">
+          Choose a category, add the location and a short description. A photo is optional.
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card shadow-sm h-100">
+      <div class="card-body p-4">
+        <div class="fs-1 fw-bold text-success">2</div>
+        <h5 class="card-title">Track</h5>
+        <p class="card-text text-muted">
+          Follow your request from Pending to In Progress and get an email when it changes.
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card shadow-sm h-100">
+      <div class="card-body p-4">
+        <div class="fs-1 fw-bold text-success">3</div>
+        <h5 class="card-title">Resolved</h5>
+        <p class="card-text text-muted">
+          Officers review each request and mark it resolved once the problem is fixed.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

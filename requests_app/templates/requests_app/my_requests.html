@@ -1,0 +1,57 @@
+{% extends "requests_app/base.html" %}
+
+{% block title %}My requests{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h2 class="mb-0">My requests</h2>
+  <a href="{% url 'submit_request' %}" class="btn btn-success">New request</a>
+</div>
+
+<div class="card shadow-sm">
+  <div class="table-responsive">
+    <table class="table table-hover align-middle mb-0">
+      <thead class="table-light">
+        <tr>
+          <th>#</th>
+          <th>Category</th>
+          <th>Location</th>
+          <th>Description</th>
+          <th>Photo</th>
+          <th>Submitted</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in service_requests %}
+        <tr>
+          <td>{{ item.id }}</td>
+          <td>{{ item.category.name }}</td>
+          <td>{{ item.location }}</td>
+          <td>{{ item.description|truncatechars:60 }}</td>
+          <td>
+            {% if item.image %}
+              <a href="{{ item.image.url }}" target="_blank">
+                <img src="{{ item.image.url }}" alt="Request photo" style="height: 40px;" class="rounded">
+              </a>
+            {% else %}
+              <span class="text-muted">None</span>
+            {% endif %}
+          </td>
+          <td>{{ item.created_at|date:"d M Y" }}</td>
+          <td>
+            <span class="badge {{ item.status_badge_class }}">{{ item.get_status_display }}</span>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="7" class="text-center text-muted py-4">
+            You haven't submitted any requests yet.
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

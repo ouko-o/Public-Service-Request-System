@@ -1,0 +1,11 @@
+{% extends "requests_app/base.html" %}
+
+{% block title %}Access denied{% endblock %}
+
+{% block content %}
+<div class="text-center py-5">
+  <h1 class="display-3 fw-bold text-success">403</h1>
+  <p class="lead">You don't have permission to view this page.</p>
+  <a href="{% url 'home' %}" class="btn btn-success">Back to home</a>
+</div>
+{% endblock %}
